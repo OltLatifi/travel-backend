@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from .models import Airport, Flight
-from .serializers import AirportSerializer, FlightSerializer
+from .models import Airport, Flight, Ticket
+from .serializers import AirportSerializer, FlightSerializer, TicketSerializer
 from users.permissions import IsStaffUser
 
 class AirportListCreateView(generics.ListCreateAPIView):
@@ -23,3 +23,13 @@ class FlightDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Flight.objects.all()
     serializer_class = FlightSerializer
+
+class TicketListCreateView(generics.ListCreateAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+    permission_classes = [IsAuthenticated]
+
+class TicketDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+    permission_classes = [IsAuthenticated]

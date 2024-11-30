@@ -25,7 +25,7 @@ class Flight(models.Model):
 class Ticket(models.Model):
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name="tickets")
     traveler = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tickets")
-    seat_number = models.CharField(max_length=10, blank=True, null=True)  # Example: "12A"
+    seat_number = models.CharField(max_length=10, blank=True, null=True)
     booking_status = models.CharField(
         max_length=10,
         choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed'), ('Cancelled', 'Cancelled')],

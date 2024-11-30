@@ -1,4 +1,3 @@
-# properties/models.py
 from django.db import models
 from users.models import User
 
@@ -37,4 +36,15 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-# Include other models like Image, Review, Feature, and FeatureMapping here as needed.
+class Image(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name="images")
+    image_url = models.URLField()
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+class Review(models.Model):
+    traveler = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name="reviews")
+    rating = models.PositiveIntegerField()  # Example: rating between 1-5
+    review_text = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
