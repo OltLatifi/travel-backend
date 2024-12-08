@@ -9,8 +9,13 @@ class Airport(models.Model):
     country = models.CharField(max_length=100)
 
 
+class Airline(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    IATA_code = models.CharField(max_length=3, unique=True)
+
+
 class Flight(models.Model):
-    airline_name = models.CharField(max_length=255)
+    airline = models.ForeignKey(Airline, on_delete=models.CASCADE, related_name="flights", null=True)
     flight_number = models.CharField(max_length=50)
     departure_airport = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name="departing_flights")
     arrival_airport = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name="arriving_flights")
