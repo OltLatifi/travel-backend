@@ -3,11 +3,12 @@ from .views import (
     PropertyListCreateView, PropertyDetailView,
     BookingListCreateView, BookingDetailView,
     ImageListCreateView, ImageDetailView,
-    ReviewListCreateView, ReviewDetailView
+    ReviewListCreateView, ReviewDetailView, get_all_properties
 )
 
 urlpatterns = [
     path('', PropertyListCreateView.as_view(), name='property-list-create'),
+    path('all', get_all_properties, name='property-list'),
     path('<int:pk>/', PropertyDetailView.as_view(), name='property-detail'),
 
     path('bookings/', BookingListCreateView.as_view(), name='booking-list-create'),
