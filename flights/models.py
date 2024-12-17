@@ -22,7 +22,7 @@ class Flight(models.Model):
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
     duration_minutes = models.PositiveIntegerField()
-    price_per_ticket = models.DecimalField(max_digits=10, decimal_places=2)
+    price_per_ticket = models.PositiveBigIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

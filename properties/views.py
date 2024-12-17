@@ -1,5 +1,5 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.pagination import PageNumberPagination
 from .models import Property, Booking, Image, Review
 from .serializers import PropertySerializer, BookingSerializer, ImageSerializer, ReviewSerializer
@@ -49,7 +49,7 @@ class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def get_all_properties(request):
     queryset = Property.objects.all()
     paginator = PageNumberPagination()
