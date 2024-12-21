@@ -2,18 +2,24 @@ from rest_framework import serializers
 from .models import Property, Booking, Image, Review
 
 class PropertySerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField()
+
     class Meta:
         model = Property
         fields = [
             'id', 'host', 'name', 'description', 'location', 'latitude',
             'longitude', 'price_per_night', 'max_guests', 'property_type',
-            'created_at', 'updated_at'
+            'created_at', 'updated_at', 'available', 'images'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at', 'host']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'host', 'images']
 
     def create(self, validated_data):
         validated_data['host'] = self.context['request'].user
         return super().create(validated_data)
+    
+    def get_images(self, obj):
+        images = Image.objects.filter(property=obj)
+        return [image.image.url for image in images]
 
 class BookingSerializer(serializers.ModelSerializer):
     class Meta:

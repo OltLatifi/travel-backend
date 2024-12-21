@@ -1,7 +1,8 @@
+from datetime import datetime, timezone
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from .models import Airport, Flight, Ticket, Airline
-from .serializers import AirportSerializer, FlightSerializer, TicketSerializer, AirlineSerializer
+from .serializers import AirportSerializer, FlightSerializer, FlightSerializerPresentation, TicketSerializer, AirlineSerializer
 from users.permissions import IsStaffUser
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
@@ -16,15 +17,20 @@ class AirportDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Airport.objects.all()
     serializer_class = AirportSerializer
 
-class FlightListCreateView(generics.ListCreateAPIView):
+class FlightListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated, IsStaffUser]
-    queryset = Flight.objects.all()
+    queryset = Flight.objects.filter(departure_time__gte=datetime.now(timezone.utc)).order_by('departure_time')
+    serializer_class = FlightSerializerPresentation
+
+class FlightCreateView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated, IsStaffUser]
+    queryset = Flight.objects.filter(departure_time__gte=datetime.now(timezone.utc))
     serializer_class = FlightSerializer
 
 class FlightDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsStaffUser]
     queryset = Flight.objects.all()
-    serializer_class = FlightSerializer
+    serializer_class = FlightSerializerPresentation
 
 class TicketListCreateView(generics.ListCreateAPIView):
     queryset = Ticket.objects.all()

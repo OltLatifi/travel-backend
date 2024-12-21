@@ -52,6 +52,7 @@ EXTERNAL_APPS = [
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + EXTERNAL_APPS
@@ -115,8 +116,12 @@ WSGI_APPLICATION = "travel_backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "travel_db",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "localhost",
+        "PORT": "5432",
     }
 }
 

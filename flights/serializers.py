@@ -23,6 +23,19 @@ class FlightSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 
+class FlightSerializerPresentation(serializers.ModelSerializer):
+    airline = AirlineSerializer()
+    departure_airport = AirportSerializer()
+    arrival_airport = AirportSerializer()
+    class Meta:
+        model = Flight
+        fields = [
+            'id', 'airline', 'flight_number', 'departure_airport', 
+            'arrival_airport', 'departure_time', 'arrival_time', 
+            'duration_minutes', 'price_per_ticket', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
 
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
