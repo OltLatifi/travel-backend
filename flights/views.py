@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from .models import Airport, Flight, Ticket, Airline
@@ -28,7 +29,7 @@ class FlightCreateView(generics.CreateAPIView):
     serializer_class = FlightSerializer
 
 class FlightDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated, IsStaffUser]
+    permission_classes = [IsAuthenticated]
     queryset = Flight.objects.all()
     serializer_class = FlightSerializerPresentation
 
@@ -57,10 +58,6 @@ class AirlineDetailView(generics.RetrieveUpdateDestroyAPIView):
 @permission_classes([IsAuthenticated])
 def get_all_flights(request):
     queryset = Flight.objects.all()
-    paginator = PageNumberPagination()
-    paginator.page_size = 10
 
-    result_page = paginator.paginate_queryset(queryset, request)
-
-    serializer = FlightSerializer(result_page, many=True)
-    return paginator.get_paginated_response(serializer.data)
+    serializer = FlightSerializer(queryset, many=True)
+    return Response(serializer.data)
