@@ -57,7 +57,7 @@ class AirlineDetailView(generics.RetrieveUpdateDestroyAPIView):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_all_flights(request):
-    queryset = Flight.objects.all()
+    queryset = Flight.objects.all().prefetch_related('airline', 'departure_airport', 'arrival_airport')
 
-    serializer = FlightSerializer(queryset, many=True)
+    serializer = FlightSerializerPresentation(queryset, many=True)
     return Response(serializer.data)
